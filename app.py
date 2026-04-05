@@ -13,12 +13,31 @@ st.set_page_config(
     layout="centered"
 )
 
-# CSS personalizado para darle un toque más moderno a los botones y la interfaz
+# --- CSS PERSONALIZADO ---
 st.markdown("""
     <style>
+    /* Estilo para los botones */
     div.stButton > button:first-child {
         border-radius: 10px;
         font-weight: bold;
+    }
+    
+    /* Forzar que la cámara se vea más grande en celulares */
+    [data-testid="stCameraInput"] {
+        width: 100% !important;
+    }
+    
+    [data-testid="stCameraInput"] video {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 70vh !important; /* Evita que ocupe más del 70% del alto de la pantalla */
+        border-radius: 10px; /* Le da un borde redondeado más estético */
+    }
+    
+    /* Achicar un poco los márgenes laterales en celulares para ganar espacio */
+    .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -41,7 +60,7 @@ if foto is not None:
     
     # --- 2. OCR: EXTRAER TEXTO ---
     with st.spinner("Analizando documento..."):
-        # Extrae el texto de la imagen. Si instalaste el paquete en español, dejá lang='spa', sino borralo.
+        # Extrae el texto de la imagen.
         texto_extraido = pytesseract.image_to_string(image, lang='spa')
     
     # --- 3. BUSCAR LA FRASE EXACTA ---
